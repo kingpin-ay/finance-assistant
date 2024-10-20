@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/controller"
 	"backend/initializer"
 
 	"github.com/gin-gonic/gin"
@@ -9,16 +10,13 @@ import (
 func init() {
 	initializer.LoadEnv()
 	initializer.InitDatabaseConnection()
+	initializer.SyncDatabase()
 }
 
 func main() {
 	server := gin.Default()
 
-	server.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	server.POST("/signUp", controller.SignUpUser)
 
 	server.Run()
 }
