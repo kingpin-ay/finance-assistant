@@ -11,7 +11,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       <LeftNav />
       <div className="flex h-screen w-screen">
         {/* <SidebarTrigger /> */}
-        <div>{children}</div>
+        <div className="p-8">{children}</div>
       </div>
     </SidebarProvider>
   );
