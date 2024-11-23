@@ -16,9 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/utils/https/authClient";
 import { loginFormSchema } from "@/utils/schemas/auth";
+import { useUser } from "@/utils/contexts/AuthContext";
+import { redirect } from "next/navigation";
 
 const page = () => {
-
   return (
     <div className="flex items-center justify-center grow">
       <div className="flex flex-col items-center grow">
@@ -30,6 +31,7 @@ const page = () => {
 };
 
 function LoginForm() {
+  const { updateUser } = useUser();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -40,7 +42,8 @@ function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const authentication = await authClient.login(values);
-    console.log(authentication);
+    updateUser(authentication);
+    redirect("/main/dashboard");
   }
   return (
     <Form {...form}>
