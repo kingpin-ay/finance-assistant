@@ -1,10 +1,7 @@
+import { baseUrlBuilder } from "../helpers/basicUtilities";
 import { axiosGet, axiosPost, urlMaker } from "../helpers/request";
 
 const POSTFIX = "auth";
-// const URL =
-//   process.env.NODE_ENV === "development"
-//     ? process.env.DEV_URL
-//     : process.env.DEV_URL;
 
 interface AuthType {
   email: string;
@@ -12,7 +9,7 @@ interface AuthType {
 }
 
 class AuthClient {
-  private static BASE_URL = `http://localhost:5001/${POSTFIX}`;
+  private static BASE_URL = baseUrlBuilder(POSTFIX);
   private static instance: AuthClient | null = null;
 
   constructor() {
