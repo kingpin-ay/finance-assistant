@@ -18,6 +18,7 @@ import { authClient } from "@/utils/https/authClient";
 import { loginFormSchema } from "@/utils/schemas/auth";
 import { useUser } from "@/utils/contexts/AuthContext";
 import { redirect } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const page = () => {
   return (
@@ -32,6 +33,7 @@ const page = () => {
 
 function LoginForm() {
   const { updateUser } = useUser();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -42,7 +44,18 @@ function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const authentication = await authClient.login(values);
+    if (!authentication) {
+      toast({
+        title: "Uh Oh! Something went wrong",
+        description: "Provided Password or Email is incorrect",
+      });
+      return;
+    }
     updateUser(authentication);
+    toast({
+      title: "Login Successful",
+      description: "Enjoy Your Stay",
+    });
     redirect("/main/dashboard");
   }
   return (

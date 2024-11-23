@@ -17,8 +17,13 @@ export async function axiosPost(
         },
         withCredentials: true,
       };
-  const response = await axios.post(url, data, config);
-  return response.status == 200 ? response.data : null;
+  try {
+    const response = await axios.post(url, data, config);
+    return response.status == 200 ? response.data : null;
+  } catch (error) {
+    console.log("error on post request -> ", error);
+    return null;
+  }
 }
 
 export async function axiosGet(url: string) {
@@ -28,6 +33,11 @@ export async function axiosGet(url: string) {
     },
     withCredentials: true,
   };
-  const response = await axios.get(url, config);
-  return response.status == 200 ? response.data : null;
+  try {
+    const response = await axios.get(url, config);
+    return response.status == 200 ? response.data : null;
+  } catch (error) {
+    console.log("error on get request -> ", error);
+    return null;
+  }
 }
