@@ -15,16 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/utils/https/authClient";
-
-const formSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(2),
-});
+import { loginFormSchema } from "@/utils/schemas/auth";
 
 const page = () => {
-  async function handleValidate() {
-    await authClient.validate();
-  }
 
   return (
     <div className="flex items-center justify-center grow">
@@ -37,15 +30,15 @@ const page = () => {
 };
 
 function LoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const authentication = await authClient.login(values);
     console.log(authentication);
   }

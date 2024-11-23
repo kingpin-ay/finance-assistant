@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import { baseUrlBuilder } from "../helpers/basicUtilities";
 import { axiosGet, axiosPost, urlMaker } from "../helpers/request";
 
@@ -21,7 +22,10 @@ class AuthClient {
 
   async login(values: AuthType) {
     const endPoint = "login";
-    return await axiosPost(urlMaker(AuthClient.BASE_URL, endPoint), values);
+    return await axiosPost(
+      urlMaker(AuthClient.BASE_URL, endPoint),
+      values,
+    );
   }
   async validate() {
     const endPoint = "validate";
